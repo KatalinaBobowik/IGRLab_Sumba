@@ -300,38 +300,3 @@ M.vs.F <- topTreat(efit, coef=1, n=Inf)
 pdf("kallisto_PlotMD_DeGenes_F1000Pipeline_ENSEMBL.pdf")
 plotMD(efit, column=1, status=dt[,1], main=colnames(efit), xlim=c(-8,13))
 dev.off()
-
-
-
-
-
-
-
-
-
-
-
-# Getting the loadings and top genes:
-geneLoadings <- as.data.frame(pcaresults$rotation)
-geneLoadings$genes <- rpkmNormLoess$genes
-write.table(geneLoadings[order(-abs(geneLoadings$PC1)),][1:100,20], file=paste0(extraVars[1], "_", extraVars[2], "_pc1_top_100_absolute_loadings.out"), quote=F, eol="\n", row.names=F, col.names=F)
-write.table(geneLoadings[order(-abs(geneLoadings$PC2)),][1:100,20], file=paste0(extraVars[1], "_", extraVars[2], "_pc2_top_100_absolute_loadings.out"), quote=F, eol="\n", row.names=F, col.names=F)
-
-# RPKM correlation matrices
-pdf(file=paste0("eda_plots/", extraVars[1], "_", extraVars[2], "_voom.loess.cpm.indrandom.clustering_clean.pdf"))
-par(cex.main=0.8)
-heatmap.2(cor(rpkmNormLoess$E, method="pearson", use="pairwise.complete.obs"), trace="none", main="Pearson correlation, RPKM", margins=c(8,8), srtCol=45, srtRow=45)
-heatmap.2(cor(rpkmNormLoess$E, method="spearman", use="pairwise.complete.obs"), trace="none", main="Spearman correlation, RPKM", margins=c(8,8), srtCol=45, srtRow=45)
-dev.off()
-
-
-
-
-#pdf("newPCA.pdf")
-#pca <- prcomp(t(lcpm), scale=T, center=T)
-#pca.var <- pca$sdev^2/sum(pca$sdev^2)
-#plot(pca$x[,1], pca$x[,2], col=as.numeric(group), cex=2, xlab=paste("PC1 (", round(pca.var[1]*100, digits=2), "% of variance)", sep=""), ylab=paste("PC2 (", round(pca.var[2]*100, digits=2), "% of variance)", sep=""), main="PCA")
-#dev.off()
-
-#col=colors[group], pch=points[group]
-#plot(pca$x[,1], pca$x[,2], col=colors[group], pch=points[group], main="PCA", xlab = "PC1", ylab = "PC2")
